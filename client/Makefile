@@ -6,20 +6,17 @@
 #    By: pecavalc <pecavalc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/27 12:16:10 by pecavalc          #+#    #+#              #
-#    Updated: 2025/09/01 13:06:53 by pecavalc         ###   ########.fr        #
+#    Updated: 2025/09/01 13:59:47 by pecavalc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = server
+NAME = client
 	
 SRCS_DIR = srcs
 OBJS_DIR = objs
 
 SRCS =  main.c 
 OBJS = $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRCS))
-
-HEADERS_DIR = srcs
-HEADERS = $(HEADERS_DIR)/server.h
 
 LIBFT_DIR = ../../Libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -29,9 +26,9 @@ LIBFT_HEADERS = $(LIBFT_HEADERS_DIR)/libft.h $(LIBFT_HEADERS_DIR)/libft_bonus.h
 PRINTF_DIR = ../../ft_printf
 PRINTF = $(PRINTF_DIR)/libftprintf.a
 PRINTF_HEADER_DIR = $(PRINTF_DIR)/include
-PRINTF_HEADER = $(PRINTF_HEADERS_DIR)/ft_printf.h
+PRINTF_HEADER = $(PRINTF_HEADER_DIR)/ft_printf.h
 
-CFLAGS = -Wall -Wextra -Werror -g -I$(HEADERS_DIR) -I$(LIBFT_HEADERS_DIR) \
+CFLAGS = -Wall -Wextra -Werror -g -I$(LIBFT_HEADERS_DIR) \
 								  -I$(PRINTF_HEADER_DIR)
 
 GREEN = \033[0;32m
@@ -42,14 +39,14 @@ all: $(NAME)
 $(NAME): $(OBJS) $(LIBFT) $(PRINTF)
 	cc $(CFLAGS) -o $@ $^ 
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADERS)
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	mkdir -p $(OBJS_DIR)
 	cc $(CFLAGS) -c $< -o $@
 
-$(LIBFT):
+$(LIBFT): $(LIBFT_HEADERS)
 	$(MAKE) bonus -C $(LIBFT_DIR)
 
-$(PRINTF):
+$(PRINTF): $(PRINTF_HEADER)
 	$(MAKE) -C $(PRINTF_DIR)
 
 clean:
