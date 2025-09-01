@@ -6,27 +6,35 @@
 /*   By: pecavalc <pecavalc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:09:59 by pecavalc          #+#    #+#             */
-/*   Updated: 2025/09/01 14:12:31 by pecavalc         ###   ########.fr       */
+/*   Updated: 2025/09/01 16:55:40 by pecavalc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdbool.h>
 #include "ft_printf.h"
 #include "libft.h"
 
 static void	validate_input(int argc, pid_t pid, char *str);
 static void	send_message(pid_t pid, char *str);
+static void	acknowledgement_handler(int sig, siginfo_t *info, void *context);
 
 int	main(int argc, char **argv)
 {
-	pid_t	pid;
+	pid_t				pid;
+	struct sigaction	sa;
+
+	sa.sa_handler = acknowledgement_handler;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	sigaddset(&sa.sa_mask, SIGUSR1);
+	sigaction(SIGUSR1, &sa, NULL);
 
 	pid = (pid_t)ft_atoi(argv[1]);
 	validate_input(argc, pid, argv[2]);
 	send_message(pid, argv[2]);
-	send_message(pid, "\0");
 	return (0);
 }
 
@@ -52,11 +60,11 @@ static void	validate_input(int argc, pid_t pid, char *str)
 	}
 }
 
-static void	send_message(pid_t pid, char *str)
+static void	send_message(pid_t pid, char *str) // TODO: regard ack
 {
 	int	bit;
 
-	while (*str)
+	while (true)
 	{
 		bit = 7;
 		while (bit >= 0)
@@ -68,6 +76,12 @@ static void	send_message(pid_t pid, char *str)
 			bit--;
 			usleep(100);
 		}
+		if (*str == '\0')
+			break ;
 		str++;
 	}
+}
+static void	acknowledgement_handler(int sig, siginfo_t *info, void *context)
+{
+	// TODO
 }
