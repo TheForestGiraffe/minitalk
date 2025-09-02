@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.h                                           :+:      :+:    :+:   */
+/*   client.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pecavalc <pecavalc@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 12:14:05 by pecavalc          #+#    #+#             */
-/*   Updated: 2025/09/02 15:46:26 by pecavalc         ###   ########.fr       */
+/*   Created: 2025/09/02 13:06:35 by pecavalc          #+#    #+#             */
+/*   Updated: 2025/09/02 15:55:20 by pecavalc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_H
-# define SERVER_H
+#ifndef CLIENT_H
+# define CLIENT_H
 
 # include <signal.h>
-# include <sys/types.h>
 
-typedef struct s_state
-{
-	volatile sig_atomic_t	bit_received;
-	volatile sig_atomic_t	client_pid;
-}							t_state;
+extern volatile sig_atomic_t	ack_received;
 
-extern t_state	state;
-
-void	sigaction_handler(int sig, siginfo_t *info, void *context);
-void	setup_sigaction(void);
+void	validate_input(int argc, pid_t pid, char *str);
+void	send_message(pid_t pid, char *str);
+void	ack_handler(int sig);
 
 #endif

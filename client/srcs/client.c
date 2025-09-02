@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.h                                           :+:      :+:    :+:   */
+/*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pecavalc <pecavalc@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 12:14:05 by pecavalc          #+#    #+#             */
-/*   Updated: 2025/09/02 15:46:26 by pecavalc         ###   ########.fr       */
+/*   Created: 2025/09/01 13:09:59 by pecavalc          #+#    #+#             */
+/*   Updated: 2025/09/02 19:00:24 by pecavalc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_H
-# define SERVER_H
+#include <signal.h>
+#include "libft.h"
+#include "client.h"
 
-# include <signal.h>
-# include <sys/types.h>
+volatile sig_atomic_t	ack_received = 0;
 
-typedef struct s_state
+int	main(int argc, char **argv)
 {
-	volatile sig_atomic_t	bit_received;
-	volatile sig_atomic_t	client_pid;
-}							t_state;
+	pid_t				pid;
 
-extern t_state	state;
-
-void	sigaction_handler(int sig, siginfo_t *info, void *context);
-void	setup_sigaction(void);
-
-#endif
+	signal(SIGUSR1, ack_handler);
+	pid = (pid_t)ft_atoi(argv[1]);
+	validate_input(argc, pid, argv[2]); // TODO: handle non-numeric input
+	send_message(pid, argv[2]);
+	return (0);
+}

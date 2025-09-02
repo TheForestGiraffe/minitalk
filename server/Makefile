@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pecavalc <pecavalc@student.42.fr>          +#+  +:+       +#+         #
+#    By: pecavalc <pecavalc@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/27 12:16:10 by pecavalc          #+#    #+#              #
-#    Updated: 2025/09/01 13:06:53 by pecavalc         ###   ########.fr        #
+#    Updated: 2025/09/02 15:31:21 by pecavalc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,9 @@ NAME = server
 SRCS_DIR = srcs
 OBJS_DIR = objs
 
-SRCS =  main.c 
+SRCS =  server.c \
+		setup_sigaction.c \
+		sigaction_handler.c
 OBJS = $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRCS))
 
 HEADERS_DIR = srcs

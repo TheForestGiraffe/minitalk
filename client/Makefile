@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pecavalc <pecavalc@student.42.fr>          +#+  +:+       +#+         #
+#    By: pecavalc <pecavalc@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/27 12:16:10 by pecavalc          #+#    #+#              #
-#    Updated: 2025/09/01 13:59:47 by pecavalc         ###   ########.fr        #
+#    Updated: 2025/09/02 15:53:43 by pecavalc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,10 @@ NAME = client
 SRCS_DIR = srcs
 OBJS_DIR = objs
 
-SRCS =  main.c 
+SRCS =  ack_handler.c \
+		client.c \
+		send_message.c \
+		validate_input.c
 OBJS = $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRCS))
 
 LIBFT_DIR = ../../Libft

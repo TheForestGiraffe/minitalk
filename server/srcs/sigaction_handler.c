@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.h                                           :+:      :+:    :+:   */
+/*   sigaction_handler.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pecavalc <pecavalc@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 12:14:05 by pecavalc          #+#    #+#             */
-/*   Updated: 2025/09/02 15:46:26 by pecavalc         ###   ########.fr       */
+/*   Created: 2025/08/27 12:03:19 by pecavalc          #+#    #+#             */
+/*   Updated: 2025/09/02 18:42:40 by pecavalc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_H
-# define SERVER_H
+#include <signal.h>
+#include "server.h"
+#include <stdio.h>
 
-# include <signal.h>
-# include <sys/types.h>
-
-typedef struct s_state
+void	sigaction_handler(int sig, siginfo_t *info, void *context)
 {
-	volatile sig_atomic_t	bit_received;
-	volatile sig_atomic_t	client_pid;
-}							t_state;
-
-extern t_state	state;
-
-void	sigaction_handler(int sig, siginfo_t *info, void *context);
-void	setup_sigaction(void);
-
-#endif
+	(void)context;
+	// printf("signal received.\n");
+	if (sig == SIGUSR1)
+	{
+		state.bit_received = 0;
+		// rintf("bit_received = 0\n");
+	}
+	if (sig == SIGUSR2)
+	{
+		state.bit_received = 1;
+		// printf("bit_received = 1\n");
+	}
+	state.client_pid = info->si_pid;
+}
