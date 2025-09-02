@@ -6,7 +6,7 @@
 /*   By: pecavalc <pecavalc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 12:03:19 by pecavalc          #+#    #+#             */
-/*   Updated: 2025/09/01 16:38:57 by pecavalc         ###   ########.fr       */
+/*   Updated: 2025/09/01 22:59:34 by pecavalc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(void)
 	sa.sa_sigaction = handler;
 	
 	// Specify that handler will be called with 3 args - needed for sigaction
-	sa.sa_flags = SA_SIGINFO;  
+	sa.sa_flags = SA_SIGINFO;
 
 	// Atomic handling:
 	//  1. Clear the mask: remove all signals from the mask (in case of garbage)
@@ -60,9 +60,9 @@ int	main(void)
 
 static void	handler(int sig, siginfo_t *info, void *context)
 {
-	(void)info;
+	unsigned int	clear_client_pid;
+	
 	(void)context;
-
 	if (current.client_pid == 0)
 		current.client_pid = info->si_pid;
 	if (current.client_pid != info->si_pid)
@@ -71,18 +71,23 @@ static void	handler(int sig, siginfo_t *info, void *context)
 	if (sig == SIGUSR2)
 		current.character |= 1;
 	current.bit++;
+	clear_client_pid = 0;
 	if (current.bit == 8)
 	{
 		if (current.character == '\0')
 		{
 			write(1, "\n", 1);
-			current.client_pid = 0;
+			clear_client_pid = 1;
 		}
 		else
 			write(1, &current.character, 1);
 		current.bit = 0;
 		current.character = 0;
 	}
+
+	if (clear_client_pid)
+		current.client_pid = 0;
+		
 	// Send acknowledgement to client after fully processing the data
-	kill(current.client_pid, SIGUSR1);
+	kill(info->si_pid, SIGUSR1);
 }
