@@ -6,7 +6,7 @@
 /*   By: pecavalc <pecavalc@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 12:03:19 by pecavalc          #+#    #+#             */
-/*   Updated: 2025/09/02 18:42:40 by pecavalc         ###   ########.fr       */
+/*   Updated: 2025/09/02 19:21:27 by pecavalc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,9 @@
 void	sigaction_handler(int sig, siginfo_t *info, void *context)
 {
 	(void)context;
-	// printf("signal received.\n");
 	if (sig == SIGUSR1)
-	{
-		state.bit_received = 0;
-		// rintf("bit_received = 0\n");
-	}
+		g_state.bit_received = 0;
 	if (sig == SIGUSR2)
-	{
-		state.bit_received = 1;
-		// printf("bit_received = 1\n");
-	}
-	state.client_pid = info->si_pid;
+		g_state.bit_received = 1;
+	g_state.client_pid = info->si_pid;
 }

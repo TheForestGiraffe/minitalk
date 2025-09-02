@@ -6,7 +6,7 @@
 /*   By: pecavalc <pecavalc@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:06:35 by pecavalc          #+#    #+#             */
-/*   Updated: 2025/09/02 15:55:20 by pecavalc         ###   ########.fr       */
+/*   Updated: 2025/09/02 19:21:39 by pecavalc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <signal.h>
 
-extern volatile sig_atomic_t	ack_received;
+extern volatile sig_atomic_t	g_ack_received;
 
 void	validate_input(int argc, pid_t pid, char *str);
 void	send_message(pid_t pid, char *str);

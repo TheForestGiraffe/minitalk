@@ -6,7 +6,7 @@
 #    By: pecavalc <pecavalc@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/27 12:16:10 by pecavalc          #+#    #+#              #
-#    Updated: 2025/09/02 15:31:21 by pecavalc         ###   ########.fr        #
+#    Updated: 2025/09/02 19:34:50 by pecavalc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ OBJS_DIR = objs
 
 SRCS =  server.c \
 		setup_sigaction.c \
-		sigaction_handler.c
+		sigaction_handler.c \
+		process_bit.c
 OBJS = $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRCS))
 
 HEADERS_DIR = srcs
