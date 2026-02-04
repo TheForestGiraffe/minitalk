@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   test_ft_putnbr_fd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pecavalc <pecavalc@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 12:03:19 by pecavalc          #+#    #+#             */
-/*   Updated: 2026/02/04 01:48:15 by pecavalc         ###   ########.fr       */
+/*   Created: 2025/05/20 16:37:04 by pecavalc          #+#    #+#             */
+/*   Updated: 2025/09/07 01:00:27 by pecavalc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <signal.h>
+#include <stdio.h>
+#include <fcntl.h>
 #include "libft.h"
-#include "server.h"
 
-t_state	g_state = {0, 0};
-
-int	main(void)
+int	test_ft_putnbr_fd(void)
 {
-	char			c;
-	unsigned int	current_bit; 
+	int		fd;
 
-	setup_sigaction();
-	ft_printf("Server's PID: %i\n", getpid());
-	c = 0;
-	current_bit = 0;
-	while (1)
-		process_bit(&c, &current_bit);
-	return (0);
+	fd = open("_test_ft_putnbr_fd_test.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd == -1)
+	{
+		printf("Cannot read file.\n");
+		return (0);
+	}
+    ft_putnbr_fd(-42000042, fd);
+	close(fd);
+	printf("%-30s [File created, inspect visually: _test_ft_putnbr_fd_test.txt]\n", "test_ft_putnbr_fd");
+	return (-1);
 }

@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pecavalc <pecavalc@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 12:03:19 by pecavalc          #+#    #+#             */
-/*   Updated: 2026/02/04 01:48:15 by pecavalc         ###   ########.fr       */
+/*   Created: 2025/06/14 00:11:59 by pecavalc          #+#    #+#             */
+/*   Updated: 2025/09/06 19:12:49 by pecavalc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <signal.h>
 #include "libft.h"
-#include "server.h"
 
-t_state	g_state = {0, 0};
-
-int	main(void)
+int	ft_lstsize(t_list *lst)
 {
-	char			c;
-	unsigned int	current_bit; 
+	int	size;
 
-	setup_sigaction();
-	ft_printf("Server's PID: %i\n", getpid());
-	c = 0;
-	current_bit = 0;
-	while (1)
-		process_bit(&c, &current_bit);
-	return (0);
+	size = 0;
+	while (lst)
+	{
+		size++;
+		lst = lst->next;
+	}
+	return (size);
 }

@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pecavalc <pecavalc@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 12:03:19 by pecavalc          #+#    #+#             */
-/*   Updated: 2026/02/04 01:48:15 by pecavalc         ###   ########.fr       */
+/*   Created: 2025/06/14 11:40:17 by pecavalc          #+#    #+#             */
+/*   Updated: 2025/09/06 19:11:43 by pecavalc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <signal.h>
+#include <stdlib.h>
 #include "libft.h"
-#include "server.h"
 
-t_state	g_state = {0, 0};
-
-int	main(void)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	char			c;
-	unsigned int	current_bit; 
+	t_list	*lst_next;
 
-	setup_sigaction();
-	ft_printf("Server's PID: %i\n", getpid());
-	c = 0;
-	current_bit = 0;
-	while (1)
-		process_bit(&c, &current_bit);
-	return (0);
+	if (!lst || !del)
+		return ;
+	while (*lst)
+	{
+		lst_next = (*lst)->next;
+		del((*lst)->content);
+		free(*lst);
+		*lst = lst_next;
+	}
 }

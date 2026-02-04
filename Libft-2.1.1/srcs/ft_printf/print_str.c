@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   print_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pecavalc <pecavalc@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 12:03:19 by pecavalc          #+#    #+#             */
-/*   Updated: 2026/02/04 01:48:15 by pecavalc         ###   ########.fr       */
+/*   Created: 2025/06/24 17:42:17 by pecavalc          #+#    #+#             */
+/*   Updated: 2025/07/09 17:49:52 by pecavalc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <signal.h>
-#include "libft.h"
-#include "server.h"
 
-t_state	g_state = {0, 0};
-
-int	main(void)
+ssize_t	print_str(const char *str)
 {
-	char			c;
-	unsigned int	current_bit; 
+	int	n_chars;
 
-	setup_sigaction();
-	ft_printf("Server's PID: %i\n", getpid());
-	c = 0;
-	current_bit = 0;
-	while (1)
-		process_bit(&c, &current_bit);
-	return (0);
+	if (!str)
+	{
+		if (write(1, "(null)", 6) == -1)
+			return (-1);
+		return (6);
+	}
+	n_chars = 0;
+	while (*str)
+	{
+		if (write(1, str, 1) == -1)
+			return (-1);
+		str++;
+		n_chars++;
+	}
+	return (n_chars);
 }

@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   print_hex_lowcase_nbr.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pecavalc <pecavalc@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 12:03:19 by pecavalc          #+#    #+#             */
-/*   Updated: 2026/02/04 01:48:15 by pecavalc         ###   ########.fr       */
+/*   Created: 2025/06/24 17:42:17 by pecavalc          #+#    #+#             */
+/*   Updated: 2025/07/09 17:43:52 by pecavalc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <signal.h>
-#include "libft.h"
-#include "server.h"
 
-t_state	g_state = {0, 0};
-
-int	main(void)
+ssize_t	print_hex_lowcase_nbr(const unsigned int n)
 {
-	char			c;
-	unsigned int	current_bit; 
+	char	*base;
+	char	digit_char;
+	ssize_t	n_chars;
 
-	setup_sigaction();
-	ft_printf("Server's PID: %i\n", getpid());
-	c = 0;
-	current_bit = 0;
-	while (1)
-		process_bit(&c, &current_bit);
-	return (0);
+	base = "0123456789abcdef";
+	n_chars = 0;
+	if (n >= 16)
+	{
+		n_chars = print_hex_lowcase_nbr(n / 16);
+		if (n_chars == -1)
+			return (-1);
+	}
+	digit_char = base[n % 16];
+	if (write(1, &digit_char, 1) == -1)
+		return (-1);
+	return (n_chars + 1);
 }

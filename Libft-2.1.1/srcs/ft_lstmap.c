@@ -1,32 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pecavalc <pecavalc@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 12:03:19 by pecavalc          #+#    #+#             */
-/*   Updated: 2026/02/04 01:48:15 by pecavalc         ###   ########.fr       */
+/*   Created: 2025/06/14 12:11:44 by pecavalc          #+#    #+#             */
+/*   Updated: 2025/09/06 19:12:29 by pecavalc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <signal.h>
 #include "libft.h"
-#include "server.h"
+#include <stddef.h>
 
-t_state	g_state = {0, 0};
-
-int	main(void)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	char			c;
-	unsigned int	current_bit; 
+	t_list	*lst_new;
 
-	setup_sigaction();
-	ft_printf("Server's PID: %i\n", getpid());
-	c = 0;
-	current_bit = 0;
-	while (1)
-		process_bit(&c, &current_bit);
-	return (0);
+	if (!lst || !f || !del)
+		return (NULL);
+	lst_new = ft_lstnew(f(lst->content));
+	if (!lst_new)
+		return (NULL);
+	if (lst->next != NULL)
+	{
+		lst_new->next = ft_lstmap(lst->next, f, del);
+		if (!lst_new->next)
+		{
+			ft_lstdelone(lst_new, del);
+			return (NULL);
+		}
+	}
+	else
+		lst_new->next = NULL;
+	return (lst_new);
 }

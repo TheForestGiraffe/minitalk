@@ -6,12 +6,12 @@
 /*   By: pecavalc <pecavalc@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 13:09:59 by pecavalc          #+#    #+#             */
-/*   Updated: 2025/09/02 15:56:33 by pecavalc         ###   ########.fr       */
+/*   Updated: 2026/02/04 01:52:03 by pecavalc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "ft_printf.h"
+#include "libft.h"
 #include "client.h"
 
 void	validate_input(int argc, pid_t pid, char *str)

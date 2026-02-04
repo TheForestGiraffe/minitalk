@@ -6,7 +6,7 @@
 #    By: pecavalc <pecavalc@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/27 12:16:10 by pecavalc          #+#    #+#              #
-#    Updated: 2025/09/02 19:34:50 by pecavalc         ###   ########.fr        #
+#    Updated: 2026/02/04 01:58:01 by pecavalc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,25 +24,19 @@ OBJS = $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRCS))
 HEADERS_DIR = srcs
 HEADERS = $(HEADERS_DIR)/server.h
 
-LIBFT_DIR = ../../Libft
+LIBFT_DIR = ../Libft-2.1.1
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_HEADERS_DIR = $(LIBFT_DIR)/include
-LIBFT_HEADERS = $(LIBFT_HEADERS_DIR)/libft.h $(LIBFT_HEADERS_DIR)/libft_bonus.h
+LIBFT_HEADERS = $(LIBFT_HEADERS_DIR)/libft.h
 
-PRINTF_DIR = ../../ft_printf
-PRINTF = $(PRINTF_DIR)/libftprintf.a
-PRINTF_HEADER_DIR = $(PRINTF_DIR)/include
-PRINTF_HEADER = $(PRINTF_HEADERS_DIR)/ft_printf.h
-
-CFLAGS = -Wall -Wextra -Werror -g -I$(HEADERS_DIR) -I$(LIBFT_HEADERS_DIR) \
-								  -I$(PRINTF_HEADER_DIR)
+CFLAGS = -Wall -Wextra -Werror -g -I$(HEADERS_DIR) -I$(LIBFT_HEADERS_DIR)
 
 GREEN = \033[0;32m
 
 all: $(NAME)
 	@echo "$(GREEN)Build successful $(RESET)"
 
-$(NAME): $(OBJS) $(LIBFT) $(PRINTF)
+$(NAME): $(OBJS) $(LIBFT)
 	cc $(CFLAGS) -o $@ $^ 
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADERS)
@@ -50,21 +44,16 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADERS)
 	cc $(CFLAGS) -c $< -o $@
 
 $(LIBFT):
-	$(MAKE) bonus -C $(LIBFT_DIR)
-
-$(PRINTF):
-	$(MAKE) -C $(PRINTF_DIR)
+	$(MAKE) -C $(LIBFT_DIR)
 
 clean:
 	rm -f $(OBJS)
 	rm -rf $(OBJS_DIR)
 	$(MAKE) clean -C $(LIBFT_DIR)
-	$(MAKE) clean -C $(PRINTF_DIR)
 
 fclean: clean
 	rm -f $(NAME)
 	$(MAKE) fclean -C $(LIBFT_DIR)
-	$(MAKE) fclean -C $(PRINTF_DIR)
 
 re: fclean all
 
