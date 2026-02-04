@@ -90,6 +90,8 @@ It will print its PID, for example:
 
 ### 2. Send a message
 
+! Open a second terminal window.
+
 From the `client/` folder:
 
 ```bash
